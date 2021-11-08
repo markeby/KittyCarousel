@@ -13,13 +13,11 @@ class INDICATOR_C
     {
 private:
     bool   State;
-    bool   flash;
     int8_t PinOut;
 public:
     INDICATOR_C (int8_t pinOut = -1)
         {
         State = false;
-        flash = false;
         }
     ~INDICATOR_C ()
         {}
@@ -38,16 +36,15 @@ public:
         {
         Light (!State);
         }
-    void Flash (int rate)
+    void Flash (int rate, int offtime)
         {
         unsigned long d = 1000 / rate;
         unsigned long h = d / 2;
+        if ( !State )
+          h += offtime;    
         bool on = (millis () % d) > h;
-        if ( on ^ flash )
-            {
-            flash = !flash;
+        if ( on ^ State )
             ToggleLight ();
-            }
         }
     void On (void)
         {

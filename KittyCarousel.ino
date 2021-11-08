@@ -1,4 +1,6 @@
-#include "CatCarousel.h"
+#include "KittyCarousel.h"
+
+//#define DEBUG 1
 
 // initialize the stepper library
 CheapStepper Stepper (6,9,10,11);
@@ -27,8 +29,10 @@ inline void  SetParameters ()
     distance = random (low, hi);
     clockwise = ( random (1,3) > 1) ? true : false;
     Stepper.newMoveDegrees (clockwise, distance);
+#ifdef DEBUG
     sprintf (buffer, "L=%4.4d  H=%4.4d  S=%4.4d  A=%4.4d  C=%d", low, hi, spd, distance, clockwise);
     Serial << buffer << endl;
+#endif //DEBUG
     }
 
 //------------------------------------------------------------------------------------------------------------
@@ -43,8 +47,7 @@ void loop()
     Button.process (now);
 
     if ( Pause)
-        Indicator.Flash (16
-        );
+        Indicator.Flash (2, 240);
     else
         Indicator.On ();
 
